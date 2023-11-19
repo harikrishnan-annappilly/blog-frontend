@@ -12,6 +12,7 @@ function Blogs(props) {
 
     const [blogs, setBlogs] = useState([]);
     const [shadowCard, setShadowCard] = useState([]);
+    const [editingShadow, setEditingShadow] = useState(false);
 
     useEffect(() => {
         let makeBlogsList = [];
@@ -68,27 +69,63 @@ function Blogs(props) {
         <>
             <div className="container">
                 <div className="p-3">
-                    <form>
-                        <div className="row align-items-center">
-                            <div className="col-md-1 d-none d-md-block">
-                                <label
-                                    htmlFor="inputPassword6"
-                                    className="col-form-label"
-                                >
-                                    Search:{" "}
-                                </label>
-                            </div>
-                            <div className="col-md-11">
+                    <div
+                        className={"card" + (editingShadow ? " shadow" : "")}
+                        onMouseEnter={() => setEditingShadow(true)}
+                        onMouseLeave={() => setEditingShadow(false)}
+                    >
+                        <div className="card-header h5 bg-warning">
+                            Make new post..!
+                        </div>
+                        <div className="card-body">
+                            <div class="mb-3">
                                 <input
-                                    type="search"
-                                    id="inputPassword6"
-                                    className="form-control"
-                                    aria-describedby="passwordHelpInline"
-                                    placeholder="Search..."
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Title"
                                 />
                             </div>
+                            <div class="mb-3">
+                                <textarea
+                                    class="form-control"
+                                    rows="3"
+                                    placeholder="Content"
+                                ></textarea>
+                            </div>
+                            <div className="">
+                                <button className="btn btn-sm btn-primary">
+                                    Save
+                                </button>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div className="p-3">
+                    <div className="card bg-secondary text-white">
+                        <div className="card-body">
+                            <form>
+                                <div className="row align-items-center">
+                                    <div className="col-md-1 d-none d-md-block">
+                                        <label
+                                            htmlFor="inputPassword6"
+                                            className="col-form-label"
+                                        >
+                                            Search:{" "}
+                                        </label>
+                                    </div>
+                                    <div className="col-md-11">
+                                        <input
+                                            type="search"
+                                            id="inputPassword6"
+                                            className="form-control"
+                                            aria-describedby="passwordHelpInline"
+                                            placeholder="Search..."
+                                        />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div className="p-3">
                     {blogs.map((blog) => (
