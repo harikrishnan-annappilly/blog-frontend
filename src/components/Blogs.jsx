@@ -1,3 +1,4 @@
+import { hasFormSubmit } from "@testing-library/user-event/dist/utils";
 import React, { useEffect, useState } from "react";
 
 function Blogs(props) {
@@ -9,10 +10,20 @@ function Blogs(props) {
         author: "Manu",
         time: "Last updated a second ago",
     };
+    const customCardId = {
+        makeNewPostCardid: -2,
+        searchCardId: -3,
+    };
 
     const [blogs, setBlogs] = useState([]);
     const [shadowCard, setShadowCard] = useState([]);
-    const [editingShadow, setEditingShadow] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [newBlog, setNewBlog] = useState({
+        title: "",
+        body: "",
+        time: "",
+        author: "",
+    });
 
     useEffect(() => {
         let makeBlogsList = [];
@@ -58,6 +69,27 @@ function Blogs(props) {
         setBlogs(blogList);
     }
 
+    function handleSearchQueryChange(event) {
+        const value = event.currentTarget.value;
+        setSearchQuery(value);
+    }
+
+    function handleInputChange(input) {
+        const key = input.currentTarget.name;
+        const value = input.currentTarget.value;
+        setNewBlog({ ...newBlog, [key]: value });
+    }
+    function handleMakeNewBlog(form) {
+        form.preventDefault();
+        const blogToSave = {
+            ...newBlog,
+            key: blogs.length + 1,
+            time: "now",
+            author: "hari",
+        };
+        setBlogs([blogToSave, ...blogs]);
+    }
+
     function handleShadow(blogId) {
         setShadowCard([...shadowCard, blogId]);
     }
@@ -65,46 +97,106 @@ function Blogs(props) {
         setShadowCard(shadowCard.filter((bId) => bId != blogId));
     }
 
+    function filterBlogs() {
+        const filteredBlogs = blogs.filter((b) =>
+            b.title.includes(searchQuery)
+        );
+        return filteredBlogs;
+    }
+
+    const blogsToShow = filterBlogs();
+
     return (
         <>
             <div className="container">
                 <div className="p-3">
                     <div
-                        className={"card" + (editingShadow ? " shadow" : "")}
-                        onMouseEnter={() => setEditingShadow(true)}
-                        onMouseLeave={() => setEditingShadow(false)}
+                        className={
+                            "card" +
+                            (shadowCard.includes(customCardId.makeNewPostCardid)
+                                ? " shadow"
+                                : "")
+                        }
+                        onMouseEnter={() =>
+                            handleShadow(customCardId.makeNewPostCardid)
+                        }
+                        onMouseLeave={() =>
+                            handleShadowDelete(customCardId.makeNewPostCardid)
+                        }
                     >
                         <div className="card-header h5 bg-warning">
                             Make new post..!
                         </div>
                         <div className="card-body">
-                            <div class="mb-3">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Title"
-                                />
-                            </div>
-                            <div class="mb-3">
-                                <textarea
-                                    class="form-control"
-                                    rows="3"
-                                    placeholder="Content"
-                                ></textarea>
-                            </div>
-                            <div className="">
-                                <button className="btn btn-sm btn-primary">
-                                    Save
-                                </button>
-                            </div>
+                            <form
+                                autoComplete="off"
+                                onSubmit={handleMakeNewBlog}
+                            >
+                                <div className="mb-3">
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        value={newBlog.title}
+                                        onChange={handleInputChange}
+                                        className="form-control"
+                                        placeholder="Title"
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <textarea
+                                        name="body"
+                                        value={newBlog.content}
+                                        onChange={handleInputChange}
+                                        className="form-control"
+                                        rows="3"
+                                        placeholder="Content"
+                                    ></textarea>
+                                </div>
+                                <div className="">
+                                    <button
+                                        className="btn btn-sm btn-primary"
+                                        type="submit"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div className="p-3">
-                    <div className="card bg-secondary text-white">
+                    <div
+                        className={
+                            "card bg-secondary text-white h5" +
+                            (shadowCard.includes(customCardId.searchCardId)
+                                ? " shadow"
+                                : "")
+                        }
+                        onMouseEnter={() =>
+                            handleShadow(customCardId.searchCardId)
+                        }
+                        onMouseLeave={() =>
+                            handleShadowDelete(customCardId.searchCardId)
+                        }
+                    >
                         <div className="card-body">
                             <form>
                                 <div className="row align-items-center">
+                                    <div className="col-md-2">
+                                        Count:{" "}
+                                        <span
+                                            className={
+                                                "badge rounded-pill text-bg-" +
+                                                (blogsToShow.length < 2
+                                                    ? "danger "
+                                                    : blogsToShow.length < 6
+                                                    ? "warning "
+                                                    : "primary")
+                                            }
+                                        >
+                                            {blogsToShow.length}
+                                        </span>
+                                    </div>
                                     <div className="col-md-1 d-none d-md-block">
                                         <label
                                             htmlFor="inputPassword6"
@@ -113,13 +205,17 @@ function Blogs(props) {
                                             Search:{" "}
                                         </label>
                                     </div>
-                                    <div className="col-md-11">
+                                    <div className="col-md-9">
                                         <input
                                             type="search"
                                             id="inputPassword6"
                                             className="form-control"
                                             aria-describedby="passwordHelpInline"
                                             placeholder="Search..."
+                                            value={searchQuery}
+                                            onChange={(event) =>
+                                                handleSearchQueryChange(event)
+                                            }
                                         />
                                     </div>
                                 </div>
@@ -128,7 +224,7 @@ function Blogs(props) {
                     </div>
                 </div>
                 <div className="p-3">
-                    {blogs.map((blog) => (
+                    {blogsToShow.map((blog) => (
                         <div
                             key={blog.key}
                             className={
@@ -151,7 +247,15 @@ function Blogs(props) {
                                         {blog.title}
                                     </div>
                                     <div className="card-body">
-                                        <p className="card-text">{blog.body}</p>
+                                        {blog.body.split("\n").map((para) => (
+                                            <p
+                                                key={Math.random()}
+                                                className="card-text"
+                                            >
+                                                {para}
+                                            </p>
+                                        ))}
+
                                         <footer className="blockquote-footer">
                                             {blog.author}
                                         </footer>
