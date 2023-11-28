@@ -5,6 +5,7 @@ import "./App.css";
 import Blogs from "./components/Blogs";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <NavBar />
             <Login />
             <Blogs />
+            <Footer />
         </div>
     );
 }

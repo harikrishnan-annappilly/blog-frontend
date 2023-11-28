@@ -22,49 +22,62 @@ function Login(props) {
 
     return (
         <div className="container">
-            <form autoComplete="off" onSubmit={handleFormSubmit}>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <h3 className="mb-3">Login</h3>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="username"
-                                    onChange={handleInputChange}
-                                    placeholder="username"
-                                    className="mb-3"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    onChange={handleInputChange}
-                                    placeholder="password"
-                                    className="mb-3"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary mb-3"
-                                >
-                                    Login
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+            <div className="row">
+                <div className="col"></div>
+                <div className="col-xl-4 col-lg-6 col-md-8 col-10">
+                    <div className="card">
+                        <form autoComplete="off" onSubmit={handleFormSubmit}>
+                            <div className="card-header bg-primary text-white">
+                                <div className="h3">Login</div>
+                            </div>
+                            <div className="card-body">
+                                <div className="mb-3">
+                                    <label
+                                        htmlFor="username"
+                                        className="form-label"
+                                    >
+                                        Username
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        onChange={handleInputChange}
+                                        value={user.username}
+                                        className="form-control"
+                                        id="username"
+                                        aria-describedby="emailHelp"
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label
+                                        htmlFor="exampleInputPassword1"
+                                        className="form-label"
+                                    >
+                                        Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        onChange={handleInputChange}
+                                        value={user.password}
+                                        className="form-control"
+                                        id="exampleInputPassword1"
+                                    />
+                                </div>
+                                <div>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                    >
+                                        Login
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div className="col"></div>
+            </div>
         </div>
     );
 }
