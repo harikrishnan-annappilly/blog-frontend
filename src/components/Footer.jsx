@@ -8,7 +8,9 @@ function Footer(props) {
         >
             <div className="container-fluid">
                 <a className="navbar-brand" href="#">
-                    <small class="text-body-secondary">--- deployed on </small>
+                    <small className="text-body-secondary">
+                        --- deployed on{" "}
+                    </small>
                     <em>%date%</em>
                 </a>
             </div>

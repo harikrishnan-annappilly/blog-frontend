@@ -16,7 +16,6 @@ function Blogs(props) {
     };
 
     const [blogs, setBlogs] = useState([]);
-    const [shadowCard, setShadowCard] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [newBlog, setNewBlog] = useState({
         title: "",
@@ -90,13 +89,6 @@ function Blogs(props) {
         setBlogs([blogToSave, ...blogs]);
     }
 
-    function handleShadow(blogId) {
-        setShadowCard([...shadowCard, blogId]);
-    }
-    function handleShadowDelete(blogId) {
-        setShadowCard(shadowCard.filter((bId) => bId != blogId));
-    }
-
     function filterBlogs() {
         const filteredBlogs = blogs.filter((b) =>
             b.title.includes(searchQuery)
@@ -110,20 +102,7 @@ function Blogs(props) {
         <>
             <div className="container">
                 <div className="p-3">
-                    <div
-                        className={
-                            "card" +
-                            (shadowCard.includes(customCardId.makeNewPostCardid)
-                                ? " shadow"
-                                : "")
-                        }
-                        onMouseEnter={() =>
-                            handleShadow(customCardId.makeNewPostCardid)
-                        }
-                        onMouseLeave={() =>
-                            handleShadowDelete(customCardId.makeNewPostCardid)
-                        }
-                    >
+                    <div className={"card"}>
                         <div className="card-header h5 bg-warning">
                             Make new post..!
                         </div>
@@ -165,20 +144,7 @@ function Blogs(props) {
                     </div>
                 </div>
                 <div className="p-3">
-                    <div
-                        className={
-                            "card bg-secondary text-white h5" +
-                            (shadowCard.includes(customCardId.searchCardId)
-                                ? " shadow"
-                                : "")
-                        }
-                        onMouseEnter={() =>
-                            handleShadow(customCardId.searchCardId)
-                        }
-                        onMouseLeave={() =>
-                            handleShadowDelete(customCardId.searchCardId)
-                        }
-                    >
+                    <div className={"card bg-secondary text-white h5"}>
                         <div className="card-body">
                             <form>
                                 <div className="row align-items-center">
@@ -225,15 +191,7 @@ function Blogs(props) {
                 </div>
                 <div className="p-3">
                     {blogsToShow.map((blog) => (
-                        <div
-                            key={blog.key}
-                            className={
-                                "card mb-3" +
-                                (shadowCard.includes(blog.key) ? " shadow" : "")
-                            }
-                            onMouseEnter={() => handleShadow(blog.key)}
-                            onMouseLeave={() => handleShadowDelete(blog.key)}
-                        >
+                        <div key={blog.key} className={"card mb-3"}>
                             <div className="row g-0">
                                 <div className="col-12">
                                     <div
