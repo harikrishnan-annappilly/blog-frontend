@@ -15,7 +15,7 @@ function NavBar(props) {
                         height="24"
                         className="d-inline-block align-text-top"
                     />{" "}
-                    Home
+                    Home --- deployed on %date%
                 </a>
             </div>
         </nav>
