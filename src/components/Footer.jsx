@@ -3,7 +3,7 @@ import React from "react";
 function Footer(props) {
     return (
         <nav
-            className="navbar bg-dark border-bottom border-body mt-3"
+            className="navbar bg-dark border-bottom navbar-expand-lg bg-body-tertiary mt-3"
             data-bs-theme="dark"
         >
             <div className="container-fluid">

@@ -1,3 +1,4 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -10,10 +11,14 @@ import Footer from "./components/Footer";
 function App() {
     return (
         <div className="App">
-            <NavBar />
-            <Login />
-            <Blogs />
-            <Footer />
+            <BrowserRouter>
+                <NavBar />
+                <Routes>
+                    <Route path="/" element={<Blogs />} />
+                    <Route path="/login" element={<Login />} />
+                </Routes>
+                <Footer />
+            </BrowserRouter>
         </div>
     );
 }
